@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>this</title>
+    </head>
+    <body>
+        
+        <script type="text/javascript">
+
+        // Far Arrow Function (=> Fat Arrow) in ECMA
+        // Lexical Scope (this)
+
+        // Nameless Regular Function = this work
+        // Nameless Arrow Function = this not working
+
+        // Callback Regular Function = this not working
+        // Callback Arrow Function = this work  
+
+        // window is Global Scope Object in nodejs
+        function greeting(){
+            console.log("Good Night");
+            console.log(this);
+        }
+
+        greeting(); // Good Night // Window{}
+
+        const sayhi = function(){
+            console.log(this);
+        }
+
+        sayhi(); // Window{}
+
+        const hifi = () => {
+            console.log(this);
+        }
+
+        hifi(); // Window{}
+
+        // let and const are not added value to window Global Scope 
+        // => Terminal type var name = "aung aung";
+        // => Terminal type name; // aung aung
+        // => Terminal type window.name; // aung aung
+        // => Terminal type window; {expand windows > name (yes)}
+
+        // => Terminal type let name = "su su";
+        // => Terminal type name; // su su
+        // => Terminal type window.name; // aung aung
+        // => Terminal type window; {expand windows > name (no)}
+        
+        // => Terminal type const name = "thiha";
+        // => Terminal type name; // thiha
+        // => Terminal type window.name; // aung aung
+        // => Terminal type window; {expand windows > name (no)}
+
+        // => Terminal type var gender = "male";
+        // => Terminal type gender; // male
+        // => Terminal type window.gender; // male
+        // => Terminal type window; {expand windows > gender (yes)}
+
+        // => Terminal type let city = "manddalay";
+        // => Terminal type city; // mandalay
+        // => Terminal type window.city; // undefined
+        // => Terminal type window; {expand windows > city (no)}
+
+        // => Terminal type var city = "manddalay";
+        // => Terminal type city; // mandalay
+        // => Terminal type window.city; // mandalay
+        // => Terminal type window; {expand windows > city (yes)}
+
+        const items = {
+            product: "iPhone 15",
+            price:2000,
+            info: function(){
+                return `${this.product} Price is based on ${this.price} USD`;
+            },
+            discount:()=>{
+                return `Use ${this.price} USD for ${this.product}! Get 20% cashback.`;
+            }
+        };
+
+        console.log(items);
+        console.log(items.info());
+        console.log(items.discount());
+
+        const group = {
+            members:["aung aung","su su"],
+            groupname:"Frontend Designer",
+            
+            groupmembers:()=>{
+                console.log(`There are 2 members on this ${this.groupname} group`);
+            },
+
+            groupinfo:function(){
+                return this.members.map(member=>{
+                    console.log(`${member} is on ${this.groupname} group`);
+                });
+            },
+
+            groupsay:function(){
+                return this.members.map(function(member){
+                    console.log(`${member} is key person ${this.groupname} group`);
+                })
+            }
+        
+        }
+
+        console.log(group);
+        group.groupmembers();
+        group.groupinfo();
+        group.groupsay();
+
+        function createitem(inventory){
+            return{
+                inventory,
+                itemvalue:function(){
+                    return this.inventory.reduce((total,curr)=>{
+                        total += curr.price;
+                        return total;
+                    },0)
+                }
+            }
+        }
+
+        const inventory = [
+            {title:"Redbull",price:1500},
+            {title:"Sponsor",price:1000}
+        ]
+
+        const getresult = createitem(inventory);
+        console.log(getresult);
+        console.log(getresult.itemvalue(inventory));
+        
+
+        </script>
+    </body>
+</html>
+
